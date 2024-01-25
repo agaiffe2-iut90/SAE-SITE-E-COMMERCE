@@ -38,7 +38,7 @@ def show_accueil():
     return render_template('auth/layout.html')
 
 ##################
-# Authentification oui mais oui
+# Authentification oui mais non
 ##################
 
 # Middleware de sécurité
