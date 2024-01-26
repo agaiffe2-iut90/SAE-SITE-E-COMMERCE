@@ -10,18 +10,18 @@ articles (tableau de dictionnaires)
 {% extends 'admin/layout_admin.html' %}
 
 {% block title %}
-    <title>afficher les articles</title>
+    <title>afficher les parfums</title>
 {% endblock %}
 
 {% block body %}
 <h3>article</h3>
-<a  class="btn btn-outline-success" href="/admin/article/add">ajouter un article</a>
+<a  class="btn btn-outline-success" href="/admin/article/add">ajouter un parfum</a>
 <br><br>
 {#{{ articles }}#}
 <table class="table">
     <thead class="thead-dark">
         <tr>
-            <th>nom</th><th>id</th><th>type article (id)</th><th>prix</th><th style="color: green">stock</th>
+            <th>nom</th><th>id</th><th>type parfum (id)</th><th>prix</th><th style="color: green">stock</th>
             <th>nouveaux avis</th><th>nb déclinaisons</th><th>image</th><th>opération</th>
         </tr>
     </thead>
