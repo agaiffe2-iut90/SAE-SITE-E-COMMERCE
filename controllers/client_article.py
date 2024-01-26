@@ -11,7 +11,7 @@ def client_article_show():
     mycursor = get_db().cursor()
     id_client = session['id_user']
 
-    # Sélection des articles (parfums)
+    # Sélection des Parfums
     sql = ''' SELECT parfum.id_parfum
                 , parfum.nom_parfum
                 , parfum.prix_parfum
