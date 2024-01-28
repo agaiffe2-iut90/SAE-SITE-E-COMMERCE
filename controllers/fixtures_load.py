@@ -90,6 +90,25 @@ INSERT INTO etat(libelle) VALUES
     ('confirmé');
      '''
     mycursor.execute(sql)
+    sql = ''' 
+    CREATE TABLE commande(
+                         id_commande INT AUTO_INCREMENT,
+                         date_achat DATE,
+                         utilisateur_id INT,
+                         etat_id INT,
+                         PRIMARY KEY(id_commande),
+                         FOREIGN KEY(utilisateur_id) REFERENCES utilisateur(id_utilisateur),
+                         FOREIGN KEY(etat_id) REFERENCES etat(id_etat)
+    )DEFAULT CHARSET utf8mb4; 
+     '''
+    mycursor.execute(sql)
+    sql = ''' 
+    INSERT INTO commande( date_achat , utilisateur_id , etat_id ) VALUES
+                    ('2015-02-02', 2, 1),
+                    ('2020-01-10', 3, 2),
+                    ('2050-10-30', 1, 3);
+                 '''
+    mycursor.execute(sql)
 
     sql = ''' 
     CREATE TABLE parfum(
@@ -111,30 +130,33 @@ INSERT INTO etat(libelle) VALUES
      '''
     mycursor.execute(sql)
     sql = ''' 
-INSERT INTO parfum( nom_parfum, prix_parfum, volume_id, type_parfum_id, conditionnement, description, fournisseur, marque, stock ,image) VALUES
-                    ('batman', 10.0, 2, 4, 'flacon plastique','Parfum Batma,', 'Made in Italie', 'naturaverde', 5,'batman.jpeg');
+    INSERT INTO parfum( nom_parfum, prix_parfum, volume_id, type_parfum_id, conditionnement, description, fournisseur, marque, stock ,image) VALUES
+                    ('batman 100ml', 10.0, 2, 4, 'flacon plastique','Parfum Batma,', 'Made in Italie', 'naturaverde', 5,'batman.jpeg'),
+                    ('licorne 50ml', 15.0, 1, 4,'flacon plastique', 'Parfum Licorne', 'air-val', 'netball',7,'licorne.jpg'),
+                    ('spiderman 100ml', 13.0, 2, 4, 'flacon en aluminium','Parfum spiderman', 'air-val', 'marvel',10, 'spiderman.jpeg'),
+                    ('Azzaro 200ml', 70.0, 3, 2, 'flacon verre','Azzaro parfum', 'Oréal Luxe Division.k', 'La Maison',6, 'azzaro-100ml.jpeg'),
+                    ('Exotic Gold 200ml', 100.0, 3, 3, 'flacon verre','Parfum Exotic Gold', 'Louis Cardin', 'Louis Cardin',8, 'louiscardin.jpeg'),
+                    ('One Million 50ml', 78.0, 1, 2, 'flacon en aluminium','Parfum One million', 'la maison Paco Rabanne', 'Paco Rabanne',20, 'onemillion-50ml.webp'),
+                    ('Sauvage 100ml', 254.0, 2, 2, 'flacon verre','Parfum Sauvage', 'Dior', 'Dior',7, 'sauvage.jpg'),
+                    ('Invictus 50ml', 78.75, 1, 2, 'flacon aluminium','Parfum Invicus', 'la maison Paco Rabanne', 'Paco Rabanne',5, 'invicus.jpg'),
+                    ('Idole 100ml', 135.0, 2, 1, 'flacon verre','Parfum Idole', 'Le domaine de la Rose', 'Lancôme',4, 'idole.jpeg'),
+                    ('Miss Dior 200ml', 222.0, 3, 1, 'flacon verre','Parfum miss dior', 'Dior', 'Dior',25, 'missdior.jpeg'),
+                    ('Roja 50ml', 725.0, 1, 3, 'flacon verre','Roja parfum', 'aoud', 'aoud',30, 'aoud.jpeg'),
+                    ('Éphémère 100ml', 25.0, 2, 4, 'flacon aluminium','Parfum “Ma petite eau éphémère” pour enfants', 'Grasse', 'Minikane',4, 'ephemere.jpeg'),
+                    ('Herman 50ml', 98.0, 1, 3, 'flacon verre','HERMANN A MES COTES ME PARAISSAIT UNE OMBRE', 'Etat libre orange', 'Etat libre orange',10, 'herman.jpeg'),
+                    ('tresor 100ml', 114.0, 2, 1, 'flacon verre','tresor parfum', 'Lancôme', 'Lancôme',20, 'tresor-75ml.jpeg'),
+                    ('working girl 200ml', 255.0, 3, 1,'flacon verre', 'girl parfum', 'jspp', 'working',2, 'working_girl_100ml.jpeg'),
+                    ('batman 50ml', 7.0, 1, 4, 'flacon plastique','Parfum Batma,', 'Made in Italie', 'naturaverde', 5,'batman-50ml.jpg'),
+                    ('Azzaro 50ml', 50.0, 1, 2, 'flacon verre','Azzaro parfum', 'Oréal Luxe Division.k', 'La Maison',6, 'azzaro-50ml.jpg'),
+                    ('One Million 200ml', 200.0, 3, 2, 'flacon en aluminium','Parfum One million', 'la maison Paco Rabanne', 'Paco Rabanne',20, 'onemillion-200ml.webp'),
+                    ('Sauvage 50ml', 154.0, 1, 2, 'flacon verre','Parfum Sauvage', 'Dior', 'Dior',7, 'sauvage-50ml.jpg'),
+                    ('Miss Dior 50ml', 222.0, 1, 1, 'flacon verre','Parfum miss dior', 'Dior', 'Dior',25, 'missdior-50ml.jpg'),
+                    ('tresor 200ml', 170.0, 3, 1, 'flacon verre','tresor parfum', 'Lancôme', 'Lancôme',20, 'tresor.jpeg'),
+                    ('working girl 50ml', 148.0, 1, 1,'flacon verre', 'girl parfum', 'jspp', 'working',2, 'working_girl_50ml.jpeg');
          '''
     mycursor.execute(sql)
 
-    sql = ''' 
-    CREATE TABLE commande(
-                         id_commande INT AUTO_INCREMENT,
-                         date_achat DATE,
-                         utilisateur_id INT,
-                         etat_id INT,
-                         PRIMARY KEY(id_commande),
-                         FOREIGN KEY(utilisateur_id) REFERENCES utilisateur(id_utilisateur),
-                         FOREIGN KEY(etat_id) REFERENCES etat(id_etat)
-    )DEFAULT CHARSET utf8mb4; 
-     '''
-    mycursor.execute(sql)
-    sql = ''' 
-    INSERT INTO commande( date_achat , utilisateur_id , etat_id ) VALUES
-                    ('2015-02-02', 2, 1),
-                    ('2020-01-10', 3, 2),
-                    ('2050-10-30', 1, 3);
-                 '''
-    mycursor.execute(sql)
+
 
     sql = ''' 
     CREATE TABLE ligne_commande(
@@ -167,6 +189,15 @@ INSERT INTO parfum( nom_parfum, prix_parfum, volume_id, type_parfum_id, conditio
                              FOREIGN KEY(parfum_id) REFERENCES parfum(id_parfum)
     )DEFAULT CHARSET utf8mb4;
          '''
+    mycursor.execute(sql)
+
+    sql='''
+    INSERT INTO ligne_panier ( utilisateur_id, parfum_id, quantite, date_ajout) VALUES
+                                                                                     (1, 3, 2, '2024-01-02'),
+                                                                                     (3, 7, 1, '2023-10-30'),
+                                                                                     (2, 15, 3, '2023-12-27'),
+                                                                                     (1, 21, 1, '2023-11-04');
+    '''
     mycursor.execute(sql)
 
 
