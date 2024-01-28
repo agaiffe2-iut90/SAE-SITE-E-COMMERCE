@@ -150,7 +150,7 @@ INSERT INTO etat(libelle) VALUES
                     ('Azzaro 50ml', 50.0, 1, 2, 'flacon verre','Azzaro parfum', 'Oréal Luxe Division.k', 'La Maison',6, 'azzaro-50ml.jpg'),
                     ('One Million 200ml', 200.0, 3, 2, 'flacon en aluminium','Parfum One million', 'la maison Paco Rabanne', 'Paco Rabanne',20, 'onemillion-200ml.webp'),
                     ('Sauvage 50ml', 154.0, 1, 2, 'flacon verre','Parfum Sauvage', 'Dior', 'Dior',7, 'sauvage-50ml.jpg'),
-                    ('Miss Dior 50ml', 222.0, 1, 1, 'flacon verre','Parfum miss dior', 'Dior', 'Dior',25, 'missdior-50ml.jpg'),
+                    ('Miss Dior 50ml', 100.0, 1, 1, 'flacon verre','Parfum miss dior', 'Dior', 'Dior',25, 'missdior-50ml.jpg'),
                     ('tresor 200ml', 170.0, 3, 1, 'flacon verre','tresor parfum', 'Lancôme', 'Lancôme',20, 'tresor.jpeg'),
                     ('working girl 50ml', 148.0, 1, 1,'flacon verre', 'girl parfum', 'jspp', 'working',2, 'working_girl_50ml.jpeg');
          '''
