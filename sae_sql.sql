@@ -1,4 +1,4 @@
--- Suppression des tables si elles existe
+-- Suppression des tables si elles existent
 DROP TABLE IF EXISTS ligne_panier;
 DROP TABLE IF EXISTS ligne_commande;
 DROP TABLE IF EXISTS parfum;
