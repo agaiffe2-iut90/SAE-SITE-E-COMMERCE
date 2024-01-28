@@ -3,7 +3,6 @@ DROP TABLE IF EXISTS ligne_commande;
 DROP TABLE IF EXISTS commande;
 DROP TABLE IF EXISTS etat;
 DROP TABLE IF EXISTS parfum;
-
 DROP TABLE IF EXISTS genre;
 DROP TABLE IF EXISTS volume;
 DROP TABLE IF EXISTS utilisateur;
@@ -17,8 +16,7 @@ CREATE TABLE utilisateur(
     role VARCHAR(255),
     est_actif tinyint(1),
     PRIMARY KEY (id_utilisateur)
-);
-/*ENGINE=InnoDB DEFAULT CHARSET utfmb4;*/
+)DEFAULT CHARSET utf8mb4;
 
 CREATE TABLE genre(
                       id_genre INT AUTO_INCREMENT,
@@ -113,11 +111,21 @@ INSERT INTO genre(nom_genre) VALUES
 INSERT INTO etat(libelle) VALUES ('en attente'), ('expédié'), ('validé'), ('confirmé');
 
 INSERT INTO parfum( nom_parfum, prix_parfum, volume_id, type_parfum_id, conditionnement, description, fournisseur, marque, stock ,image) VALUES
-                    ('batman', 30.0, 2, 4, 'flacon plastique','batman parfum', 'italie', 'naverde', 5,'batman.jpeg'),
-                    ('licorne', 19.0, 1, 4,'flacon plastique', 'licorne parfum', 'netball', 'air-val',7,'licorne.jpeg'),
-                    ('spiderman', 20.0, 2, 4, 'flacon plastique','spiderman parfum', 'marvel', 'marvel',122, 'spiderman.jpeg'),
-                    ('tresor', 50.0, 2, 1, 'flacon verre','tresor parfum', 'china', 'jsp',777, 'tresor.jpg'),
-                    ('working girl', 255.0, 3, 1,'flacon verre', 'girl parfum', 'jspp', 'working',2, 'working_girl_100ml.jpg');
+                    ('batman', 10.0, 2, 4, 'flacon plastique','Parfum Batma,', 'Made in Italie', 'naturaverde', 5,'batman.jpeg'),
+                    ('licorne', 15.0, 1, 4,'flacon plastique', 'Parfum Licorne', 'air-val', 'netball',7,'licorne.jpg'),
+                    ('spiderman', 13.0, 2, 4, 'flacon en aluminium','Parfum spiderman', 'air-val', 'marvel',10, 'spiderman.jpeg'),
+                    ('Azzaro', 70.0, 3, 2, 'flacon verre','Azzaro parfum', 'Oréal Luxe Division.k', 'La Maison',6, 'azzaro-100ml.jpeg'),
+                    ('Exotic Gold', 100.0, 3, 3, 'flacon verre','Parfum Exotic Gold', 'Louis Cardin', 'Louis Cardin',8, 'louiscardin.jpeg'),
+                    ('One Million', 78.0, 1, 2, 'flacon en aluminium','Parfum One million', 'la maison Paco Rabanne', 'Paco Rabanne',20, 'onemillion-50ml.webp'),
+                    ('Sauvage', 254.0, 2, 2, 'flacon verre','Parfum Sauvage', 'Dior', 'Dior',7, 'sauvage.jpg'),
+                    ('Invictus', 78.75, 1, 2, 'flacon aluminium','Parfum Invicus', 'la maison Paco Rabanne', 'Paco Rabanne',5, 'invicus.jpg'),
+                    ('Idole', 135.0, 2, 1, 'flacon verre','Parfum Idole', 'Le domaine de la Rose', 'Lancôme',4, 'idole.jpeg'),
+                    ('Miss Dior', 222.0, 3, 1, 'flacon verre','Parfum miss dior', 'Dior', 'Dior',25, 'missdior.jpeg'),
+                    ('Roja', 725.0, 3, 3, 'flacon verre','Roja parfum', 'aoud', 'aoud',30, 'aoud.jpeg'),
+                    ('Éphémère', 25.0, 2, 4, 'flacon aluminium','Parfum “Ma petite eau éphémère” pour enfants', 'Grasse', 'Minikane',4, 'ephemere.jpeg'),
+                    ('Herman', 98.0, 1, 3, 'flacon verre','HERMANN A MES COTES ME PARAISSAIT UNE OMBRE', 'Etat libre orange', 'Etat libre orange',10, 'herman.jpeg'),
+                    ('tresor', 114.0, 2, 1, 'flacon verre','tresor parfum', 'Lancôme', 'Lancôme',20, 'tresor-75ml.jpeg'),
+                    ('working girl', 255.0, 3, 1,'flacon verre', 'girl parfum', 'jspp', 'working',2, 'working_girl_100ml.jpeg');
 
 INSERT INTO commande( date_achat , utilisateur_id , etat_id ) VALUES
                     ('2015-02-02', 2, 1),
