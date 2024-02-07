@@ -21,7 +21,7 @@ def show_article():
                 parfum.image AS image
                 , parfum.nom_parfum AS nom
                 , parfum.prix_parfum AS prix
-                , stock
+                , stock 
                 FROM parfum
                 ORDER BY parfum.nom_parfum;'''
     mycursor.execute(sql)
