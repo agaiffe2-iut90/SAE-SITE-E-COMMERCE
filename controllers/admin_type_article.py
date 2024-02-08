@@ -48,7 +48,8 @@ def delete_type_article():
 def edit_type_article():
     id_type_article = request.args.get('id_type_article', '')
     mycursor = get_db().cursor()
-    sql = '''   '''
+    sql = '''SELECT id_genre AS id_type_article, nom_genre AS libelle
+             FROM genre WHERE id_genre=%s;'''
     mycursor.execute(sql, (id_type_article,))
     type_article = mycursor.fetchone()
     return render_template('admin/type_article/edit_type_article.html', type_article=type_article)
@@ -58,8 +59,9 @@ def valid_edit_type_article():
     libelle = request.form['libelle']
     id_type_article = request.form.get('id_type_article', '')
     tuple_update = (libelle, id_type_article)
+    print(tuple_update)
     mycursor = get_db().cursor()
-    sql = '''   '''
+    sql = '''UPDATE genre SET nom_genre=%s WHERE id_genre=%s;'''
     mycursor.execute(sql, tuple_update)
     get_db().commit()
     flash(u'type article modifié, id: ' + id_type_article + " libelle : " + libelle, 'alert-success')
