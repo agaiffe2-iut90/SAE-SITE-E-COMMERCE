@@ -11,10 +11,11 @@ admin_type_article = Blueprint('admin_type_article', __name__,
 @admin_type_article.route('/admin/type-article/show')
 def show_type_article():
     mycursor = get_db().cursor()
-    # sql = '''         '''
-    # mycursor.execute(sql)
-    # types_article = mycursor.fetchall()
-    types_article=[]
+    sql = '''SELECT genre.id_genre AS id_type_article,
+                    genre.nom_genre AS libelle
+                    FROM genre;'''
+    mycursor.execute(sql)
+    types_article = mycursor.fetchall()
     return render_template('admin/type_article/show_type_article.html', types_article=types_article)
 
 @admin_type_article.route('/admin/type-article/add', methods=['GET'])
@@ -23,10 +24,12 @@ def add_type_article():
 
 @admin_type_article.route('/admin/type-article/add', methods=['POST'])
 def valid_add_type_article():
-    libelle = request.form.get('libelle', '')
-    tuple_insert = (libelle,)
+    print('''ajout d'un parfum dans le tableau''')
     mycursor = get_db().cursor()
-    sql = '''         '''
+    libelle = request.form.get('libelle', '')
+    tuple_insert = (libelle)
+    print(tuple_insert)
+    sql = "INSERT INTO genre(id_genre, nom_genre) VALUES (NULL,%s);"
     mycursor.execute(sql, tuple_insert)
     get_db().commit()
     message = u'type ajouté , libellé :'+libelle

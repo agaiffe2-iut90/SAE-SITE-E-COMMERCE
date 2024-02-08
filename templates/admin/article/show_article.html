@@ -14,7 +14,7 @@ articles (tableau de dictionnaires)
 {% endblock %}
 
 {% block body %}
-<h3>article</h3>
+<h3>Parfums</h3>
 <a  class="btn btn-outline-success" href="/admin/article/add">ajouter un parfum</a>
 <br><br>
 {#{{ articles }}#}
@@ -31,7 +31,8 @@ articles (tableau de dictionnaires)
            <tr>
                   <td>{{ ligne.nom }}</td>
                   <td>{{ ligne.id_article }}</td>
-                  <td><span style="color: red">{{ ligne.libelle }}</span> ({{ ligne.type_article_id }})</td>
+                  <td style="color: red"> {% for type in type_parfum %}
+                   {% if ligne.type_parfum_id==type.id_genre %}    {{ type.nom_genre }} {% endif %} {% endfor %} ({{ ligne.type_parfum_id }}) </td>
                   <td>{#{ ligne.prix }#}  {{  "{:,.2f} €".format(ligne.prix) }}</td>
                   <td>
                   {% if ligne.stock is defined %}
@@ -88,7 +89,7 @@ articles (tableau de dictionnaires)
     {% else %}
             <tr>
                   <td>
-                      pas d'article
+                      pas de parfum
                   </td>
            </tr>
     {% endif %}

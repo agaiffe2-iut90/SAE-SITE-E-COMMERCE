@@ -19,6 +19,7 @@ def show_article():
     mycursor = get_db().cursor()
     sql = '''  SELECT parfum.id_parfum AS id_article,
                 parfum.image AS image
+                , parfum.type_parfum_id
                 , parfum.nom_parfum AS nom
                 , parfum.prix_parfum AS prix
                 , stock 
@@ -26,7 +27,10 @@ def show_article():
                 ORDER BY parfum.nom_parfum;'''
     mycursor.execute(sql)
     articles = mycursor.fetchall()
-    return render_template('admin/article/show_article.html', articles=articles)
+    sql = '''  SELECT * FROM genre;'''
+    mycursor.execute(sql)
+    type_parfum = mycursor.fetchall()
+    return render_template('admin/article/show_article.html', articles=articles, type_parfum=type_parfum)
 
 
 @admin_article.route('/admin/article/add', methods=['GET'])
