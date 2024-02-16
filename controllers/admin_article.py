@@ -36,12 +36,10 @@ def show_article():
 @admin_article.route('/admin/article/add', methods=['GET'])
 def add_article():
     mycursor = get_db().cursor()
-
-    return render_template('admin/article/add_article.html'
-                           #,types_article=type_article,
-                           #,couleurs=colors
-                           #,tailles=tailles
-                            )
+    sql = '''SELECT * FROM genre;'''
+    mycursor.execute(sql)
+    genre = mycursor.fetchall()
+    return render_template('admin/article/add_article.html', types_article=genre)
 
 
 @admin_article.route('/admin/article/add', methods=['POST'])
