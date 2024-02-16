@@ -53,8 +53,8 @@ def delete_type_article():
     print(sign)
     if sign != 0:
         message = u'Suppression impossible ! (car contrainte clé étrangère)'
+        flash(message, 'alert-warning')
         print(message)
-        flash(message, 'warning-success')
     else:
         sql = "DELETE FROM genre WHERE id_genre=%s;;"
         mycursor.execute(sql, tuple_param)
@@ -63,7 +63,7 @@ def delete_type_article():
         print(request.args.get('id_type_article'))
         id_type_article = request.args.get('id_type_article', 0)
         message = u'un type de parfum supprimé, id : ' + id_type_article
-        flash(message, 'alert-warning')
+        flash(message, 'warning-success')
     return redirect('/admin/type-article/show')
 
 @admin_type_article.route('/admin/type-article/edit', methods=['GET'])
