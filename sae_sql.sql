@@ -155,7 +155,8 @@ INSERT INTO commande( date_achat , utilisateur_id , etat_id ) VALUES
 -- Insertion de données dans la table ligne_commande
 INSERT INTO  ligne_commande(commande_id, parfum_id, prix, quantite) VALUES
                             (1, 2, 20.0, 2),
-                            (2, 5, 19.36, 3);
+                            (2, 5, 19.36, 3),
+                            (3,7, 20.0,1);
 
 -- Insertion de données dans la table ligne_panier
 INSERT INTO ligne_panier ( utilisateur_id, parfum_id, quantite, date_ajout) VALUES
