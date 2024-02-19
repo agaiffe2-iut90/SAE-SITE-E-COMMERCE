@@ -173,7 +173,8 @@ INSERT INTO etat(libelle) VALUES
     sql = ''' 
     INSERT INTO  ligne_commande(commande_id, parfum_id, prix, quantite) VALUES
                             (1, 2, 20.0, 2),
-                            (2, 5, 19.36, 3);
+                            (2, 5, 19.36, 3),
+                            (3,7, 20.0,1);
          '''
     mycursor.execute(sql)
 
