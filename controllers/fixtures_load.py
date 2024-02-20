@@ -106,7 +106,7 @@ INSERT INTO etat(libelle) VALUES
     INSERT INTO commande( date_achat , utilisateur_id , etat_id ) VALUES
                     ('2015-02-02', 2, 1),
                     ('2020-01-10', 3, 2),
-                    ('2050-10-30', 1, 3);
+                    ('2050-10-30', 1, 1);
                  '''
     mycursor.execute(sql)
 
