@@ -14,12 +14,25 @@ client_commande = Blueprint('client_commande', __name__,
 def client_commande_valide():
     mycursor = get_db().cursor()
     id_client = session['id_user']
-    sql = ''' selection des articles d'un panier 
-    '''
-    articles_panier = []
+    sql = '''SELECT ligne_panier.quantite as quantite, parfum.prix as prix, genre.nom_genre as nom , volume.nom_volume as taille , parfum.stock as stock , parfum.id_parfum as id_parfum 
+                    FROM ligne_panier
+                    INNER JOIN parfum ON parfum.id_parfum = ligne_panier.parfum_id
+                    INNER JOIN genre ON parfum.type_parfum_id = genre.id_genre
+                    INNER JOIN volume ON parfum.volume_id = volume.id_volume
+                    WHERE ligne_panier.utilisateur_id = %s;
+                    '''
+    mycursor.execute(sql, (id_client))
+    articles_panier = mycursor.fetchall()
+    print(articles_panier, "article panier")
+
     if len(articles_panier) >= 1:
-        sql = ''' calcul du prix total du panier '''
-        prix_total = None
+        sql = ''' SELECT SUM(ligne_panier.quantite * parfum.prix) AS prix_total FROM ligne_panier 
+                        INNER JOIN parfum ON parfum.id_parfum = ligne_panier.parfum_id
+                        INNER JOIN genre ON parfum.type_parfum_id = genre.id_genre
+                        '''
+        mycursor.execute(sql)
+        prix_total = mycursor.fetchone()['prix_total']
+
     else:
         prix_total = None
     # etape 2 : selection des adresses
@@ -66,18 +79,36 @@ def client_commande_add():
 def client_commande_show():
     mycursor = get_db().cursor()
     id_client = session['id_user']
-    sql = '''  selection des commandes ordonnées par état puis par date d'achat descendant '''
-    commandes = []
+    sql = '''SELECT date_achat,COUNT(*) AS nbr_articles, SUM(ligne_commande.quantite * prix)  AS prix_total ,commande.etat_id AS etat_id, etat.libelle, commande.id_commande 
+         FROM commande 
+         INNER JOIN ligne_commande
+         ON commande.id_commande=ligne_commande.commande_id 
+         INNER JOIN etat 
+         ON commande.etat_id=etat.id_etat
+         WHERE utilisateur_id=%s 
+         GROUP BY commande.id_commande 
+         ORDER BY commande.etat_id ASC,date_achat DESC;'''
+    mycursor.execute(sql, (id_client))
+    commandes = mycursor.fetchall()
 
     articles_commande = None
     commande_adresses = None
-    id_commande = request.args.get('id_commande', None)
+    id_commande = request.args.get('id_commande')
     if id_commande != None:
-        print(id_commande)
-        sql = ''' selection du détails d'une commande '''
+
+        sql = '''SELECT nom_genre as nom, quantite, genre.prix, sum(parfum.prix * ligne_commande.quantite) as prix_ligne
+                from ligne_commande
+                INNER JOIN commande on commande.id_commande = ligne_commande.commande_id
+                INNER JOIN parfum on ligne_commande.parfum_id = parfum.id_parfum
+                INNER JOIn genre on parfum.type_parfum_id = genre.id_genre
+                WHERE commande.id_commande=%s
+                GROUP BY parfum.id_parfum;
+                '''
+        mycursor.execute(sql, (id_commande))
+        articles_commande = mycursor.fetchall()
+        print(articles_commande)
 
         # partie 2 : selection de l'adresse de livraison et de facturation de la commande selectionnée
-        sql = ''' selection des adressses '''
 
     return render_template('client/commandes/show.html'
                            , commandes=commandes
