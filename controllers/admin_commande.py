@@ -21,7 +21,7 @@ def admin_commande_show():
     # Mettez à jour la requête SQL selon votre nouvelle structure
     sql = '''
         SELECT c.date_achat, COUNT(*) AS nbr_articles, SUM(lc.quantite * lc.prix) AS prix_total, 
-        c.etat_id, e.libelle AS etat_libelle, c.id_commande, u.login AS login
+        c.etat_id, e.libelle AS libelle, c.id_commande, u.login AS login
         FROM commande c
         INNER JOIN ligne_commande lc ON c.id_commande = lc.commande_id
         INNER JOIN etat e ON c.etat_id = e.id_etat
