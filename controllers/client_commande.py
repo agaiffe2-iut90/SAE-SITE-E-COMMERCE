@@ -14,7 +14,7 @@ client_commande = Blueprint('client_commande', __name__,
 def client_commande_valide():
     mycursor = get_db().cursor()
     id_client = session['id_user']
-    sql = '''SELECT ligne_panier.quantite as quantite, parfum.prix as prix, genre.nom_genre as nom , volume.nom_volume as taille , parfum.stock as stock , parfum.id_parfum as id_parfum 
+    sql = '''SELECT ligne_panier.quantite as quantite, parfum.prix_parfum as prix, genre.nom_genre as nom , volume.nom_volume as taille , parfum.stock as stock , parfum.id_parfum as id_parfum 
                     FROM ligne_panier
                     INNER JOIN parfum ON parfum.id_parfum = ligne_panier.parfum_id
                     INNER JOIN genre ON parfum.type_parfum_id = genre.id_genre
@@ -26,7 +26,7 @@ def client_commande_valide():
     print(articles_panier, "article panier")
 
     if len(articles_panier) >= 1:
-        sql = ''' SELECT SUM(ligne_panier.quantite * parfum.prix) AS prix_total FROM ligne_panier 
+        sql = ''' SELECT SUM(ligne_panier.quantite * parfum.prix_parfum) AS prix_total FROM ligne_panier 
                         INNER JOIN parfum ON parfum.id_parfum = ligne_panier.parfum_id
                         INNER JOIN genre ON parfum.type_parfum_id = genre.id_genre
                         '''
@@ -94,9 +94,10 @@ def client_commande_show():
     articles_commande = None
     commande_adresses = None
     id_commande = request.args.get('id_commande')
+    print(id_commande, 2222222 ,"id commande lol")
     if id_commande != None:
 
-        sql = '''SELECT nom_genre as nom, quantite, genre.prix, sum(parfum.prix * ligne_commande.quantite) as prix_ligne
+        sql = '''SELECT nom_genre as nom, quantite, parfum.prix_parfum AS prix, sum(parfum.prix_parfum * ligne_commande.quantite) as prix_ligne
                 from ligne_commande
                 INNER JOIN commande on commande.id_commande = ligne_commande.commande_id
                 INNER JOIN parfum on ligne_commande.parfum_id = parfum.id_parfum
@@ -108,7 +109,6 @@ def client_commande_show():
         articles_commande = mycursor.fetchall()
         print(articles_commande)
 
-        # partie 2 : selection de l'adresse de livraison et de facturation de la commande selectionnée
 
     return render_template('client/commandes/show.html'
                            , commandes=commandes

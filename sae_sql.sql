@@ -150,7 +150,7 @@ INSERT INTO parfum( nom_parfum, prix_parfum, volume_id, type_parfum_id, conditio
 INSERT INTO commande( date_achat , utilisateur_id , etat_id ) VALUES
                     ('2015-02-02', 2, 1),
                     ('2020-01-10', 3, 2),
-                    ('2050-10-30', 1, 3);
+                    ('2050-10-30', 2, 3);
 
 -- Insertion de données dans la table ligne_commande
 INSERT INTO  ligne_commande(commande_id, parfum_id, prix, quantite) VALUES
@@ -163,4 +163,4 @@ INSERT INTO ligne_panier ( utilisateur_id, parfum_id, quantite, date_ajout) VALU
                                                                                      (1, 3, 2, '2024-01-02'),
                                                                                      (3, 7, 1, '2023-10-30'),
                                                                                      (2, 15, 3, '2023-12-27'),
-                                                                                     (1, 21, 1, '2023-11-04');
+                                                                                     (2, 21, 1, '2023-11-04');
