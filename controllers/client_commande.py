@@ -48,28 +48,45 @@ def client_commande_valide():
 @client_commande.route('/client/commande/add', methods=['POST'])
 def client_commande_add():
     mycursor = get_db().cursor()
+    id_client = session.get('id_user')
+    adresse_livraison = request.form.get('id_adresse_livraison')
+    adresse_identique = request.form.get('adresse_identique')
+    adresse_facturation = request.form.get('id_adresse_facturation')
 
-    # choix de(s) (l')adresse(s)
+    if adresse_identique == 'on':  # Si la checkbox est cochée, le formulaire renvoie 'on'
+        adresse_facturation = adresse_livraison
+        flash(u'Adresse de facturation identique à l\'adresse de livraison', 'alert-info')
 
-    id_client = session['id_user']
-    sql = ''' selection du contenu du panier de l'utilisateur '''
-    items_ligne_panier = []
-    # if items_ligne_panier is None or len(items_ligne_panier) < 1:
-    #     flash(u'Pas d\'articles dans le ligne_panier', 'alert-warning')
-    #     return redirect('/client/article/show')
-                                           # https://pynative.com/python-mysql-transaction-management-using-commit-rollback/
-    #a = datetime.strptime('my date', "%b %d %Y %H:%M")
+    mycursor.execute('''SELECT * FROM ligne_panier WHERE utilisateur_id = %s;''', (id_client,))
+    items_ligne_panier = mycursor.fetchall()
 
-    sql = ''' creation de la commande '''
+    if not items_ligne_panier:
+        flash(u'Pas d\'articles dans le panier', 'alert-warning')
+        return redirect(url_for('client_index'))
 
-    sql = '''SELECT last_insert_id() as last_insert_id'''
-    # numéro de la dernière commande
+    # Insertion de la commande
+    mycursor.execute(
+        '''INSERT INTO commande (id_commande, date_achat, utilisateur_id, etat_id) VALUES (NULL, current_timestamp, %s, 1);''',
+        ( id_client ))
+    id_commande = mycursor.lastrowid  # Récupère l'ID de la commande insérée
+
     for item in items_ligne_panier:
-        sql = ''' suppression d'une ligne de panier '''
-        sql = "  ajout d'une ligne de commande'"
+        id_parfum = item['parfum_id']
+        quantite = item['quantite']
+        # Sélection du prix directement lors de l'insertion dans ligne_commande
+        mycursor.execute('''SELECT type_parfum_id, prix_parfum AS prix FROM parfum WHERE id_parfum = %s;''', (id_parfum,))
+        parfum_info = mycursor.fetchone()
+
+        if parfum_info:
+            mycursor.execute(
+                '''INSERT INTO ligne_commande (commande_id, parfum_id, prix, quantite) VALUES (%s, %s, %s, %s);''',
+                (id_commande, id_parfum, parfum_info['prix'],quantite))
+
+    # Suppression des éléments du panier après avoir ajouté la commande
+    mycursor.execute('''DELETE FROM ligne_panier WHERE utilisateur_id = %s;''', (id_client,))
 
     get_db().commit()
-    flash(u'Commande ajoutée','alert-success')
+    flash(u'Commande ajoutée avec succès', 'alert-success')
     return redirect('/client/article/show')
 
 
