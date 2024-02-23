@@ -35,13 +35,13 @@
 {# #}                           {% endif %}
                                 <form action="/client/panier/delete"   style="display: inline-block;"  method="post">
 {# #}                               <input type="hidden" name="id_declinaison_article" value="{{ item_panier.id_declinaison_article }}">
-                                    <input type="hidden" name="id_article" value="{{ item_panier.id_parfum }}">
+                                    <input type="hidden" name="id_parfum" value="{{ item_panier.parfum_id }}">
                                     <button class="btn btn-primary" > - </button>
                                 </form>
 
                                 <form action="/client/panier/delete/line"  style="display: inline-block;"  method="post">
 {# #}                               <input type="hidden" name="id_declinaison_article" value="{{ item_panier.id_declinaison_article }}">
-                                    <input type="hidden" name="id_parfum" value="{{ item_panier.id_parfum }}">
+                                    <input type="hidden" name="id_parfum" value="{{ item_panier.parfum_id }}">
                                     <button class="btn btn-primary" >Supprimer</button>
                                 </form>
                             </td>
