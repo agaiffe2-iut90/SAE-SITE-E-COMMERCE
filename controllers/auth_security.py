@@ -37,7 +37,7 @@ def auth_login_post():
             if user['role'] == 'ROLE_admin':
                 return redirect('/admin/commande/index')
             else:
-                return redirect('/client/article/show')
+                return redirect('/client/parfum/show')
     else:
         flash(u'Vérifier votre login et essayer encore.', 'alert-warning')
         return redirect('/login')
@@ -78,7 +78,7 @@ def auth_signup_post():
     session['login'] = login
     session['role'] = 'ROLE_client'
     session['id_user'] = id_user
-    return redirect('/client/article/show')
+    return redirect('/client/parfum/show')
 
 
 @auth_security.route('/logout')

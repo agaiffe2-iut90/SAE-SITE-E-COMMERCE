@@ -6,8 +6,8 @@ client_article = Blueprint('client_article', __name__, template_folder='template
 
 
 @client_article.route('/client/index')
-@client_article.route('/client/article/show')
-def client_article_show():
+@client_article.route('/client/parfum/show')
+def client_parfum_show():
     mycursor = get_db().cursor()
     id_client = session['id_user']
 
@@ -27,30 +27,7 @@ def client_article_show():
 
     tuple_sql = []
     condition_and = ""
-    if "filter_word" in session or "filter_prix_min" in session or "filter_prix_max" in session or "filter_types" in session:
-        sql = sql + " WHERE "
 
-    if "filter_word" in session:
-        sql = sql + "nom_parfum LIKE %s"
-        recherche = "%" + session["filter_word"] + "%"
-        tuple_sql.append(recherche)
-        condition_and = " AND "
-    if "filter_prix_min" in session or "filter_prix_max" in session:
-        sql = sql + condition_and + " prix BETWEEN %s AND %s"
-        tuple_sql.append(session["filter_prix_min"])
-        tuple_sql.append(session["filter_prix_max"])
-        condition_and = " AND "
-    if "filter_types" in session:
-
-        sql = sql + condition_and + "("
-        last_item = session['filter_types'][-1]
-        for item in session['filter_types']:
-            sql = sql + " id_genre = %s "
-            if item != last_item:
-                sql = sql + " OR "
-            tuple_sql.append(item)
-
-        sql = sql + ")"
     tuple_sql = tuple(tuple_sql)
     print(sql, tuple_sql)
     mycursor.execute(sql, tuple_sql)
