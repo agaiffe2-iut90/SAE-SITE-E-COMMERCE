@@ -59,7 +59,7 @@ def valid_add_article():
         print("erreur")
         filename=None
 
-    sql = '''  requête admin_article_2 '''
+    sql = '''INSERT INTO parfum(id_parfum, nom_parfum, prix_parfum, volume_id, type_parfum_id, conditionnement, description, fournisseur, marque, stock, image) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'''
 
     tuple_add = (nom, filename, prix, type_article_id, description)
     print(tuple_add)
