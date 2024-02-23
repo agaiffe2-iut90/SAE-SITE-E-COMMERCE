@@ -22,10 +22,10 @@ def client_commande_valide():
                     WHERE ligne_panier.utilisateur_id = %s;
                     '''
     mycursor.execute(sql, (id_client))
-    articles_panier = mycursor.fetchall()
-    print(articles_panier, "article panier")
+    parfums_panier = mycursor.fetchall()
+    print(parfums_panier, "article panier")
 
-    if len(articles_panier) >= 1:
+    if len(parfums_panier) >= 1:
         sql = ''' SELECT SUM(ligne_panier.quantite * parfum.prix_parfum) AS prix_total FROM ligne_panier 
                         INNER JOIN parfum ON parfum.id_parfum = ligne_panier.parfum_id
                         INNER JOIN genre ON parfum.type_parfum_id = genre.id_genre
@@ -38,7 +38,7 @@ def client_commande_valide():
     # etape 2 : selection des adresses
     return render_template('client/boutique/panier_validation_adresses.html'
                            #, adresses=adresses
-                           , articles_panier=articles_panier
+                           , articles_panier=parfums_panier
                            , prix_total= prix_total
                            , validation=1
                            #, id_adresse_fav=id_adresse_fav
@@ -61,7 +61,7 @@ def client_commande_add():
     items_ligne_panier = mycursor.fetchall()
 
     if not items_ligne_panier:
-        flash(u'Pas d\'articles dans le panier', 'alert-warning')
+        flash(u'Pas de parfum dans le panier', 'alert-warning')
         return redirect(url_for('client_index'))
 
     # Insertion de la commande
@@ -87,7 +87,7 @@ def client_commande_add():
 
     get_db().commit()
     flash(u'Commande ajoutée avec succès', 'alert-success')
-    return redirect('/client/article/show')
+    return redirect('/client/parfum/show')
 
 
 

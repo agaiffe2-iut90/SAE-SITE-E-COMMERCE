@@ -28,20 +28,20 @@
                                 <form action="/client/panier/add"  style="display: inline-block;"  method="post">
 {# #}                                   <input type="hidden" name="id_declinaison_article" value="{{ item_panier.id_declinaison_article }}">
                                         <input type="hidden" name="quantite" value="1">
-                                        <input type="hidden" name="id_article" value="{{ item_panier.id_article }}">
+                                        <input type="hidden" name="id_parfum" value="{{ item_panier.parfum_id }}">
                                     <button class="btn btn-primary" > + </button>
                                 </form>
 {# #}                               {% endif %}
 {# #}                           {% endif %}
                                 <form action="/client/panier/delete"   style="display: inline-block;"  method="post">
 {# #}                               <input type="hidden" name="id_declinaison_article" value="{{ item_panier.id_declinaison_article }}">
-                                    <input type="hidden" name="id_article" value="{{ item_panier.id_article }}">
+                                    <input type="hidden" name="id_article" value="{{ item_panier.id_parfum }}">
                                     <button class="btn btn-primary" > - </button>
                                 </form>
 
                                 <form action="/client/panier/delete/line"  style="display: inline-block;"  method="post">
 {# #}                               <input type="hidden" name="id_declinaison_article" value="{{ item_panier.id_declinaison_article }}">
-                                    <input type="hidden" name="id_article" value="{{ item_panier.id_article }}">
+                                    <input type="hidden" name="id_parfum" value="{{ item_panier.id_parfum }}">
                                     <button class="btn btn-primary" >Supprimer</button>
                                 </form>
                             </td>
@@ -50,7 +50,7 @@
 
                 </table>
                     {% if validation is defined and validation == 1 %}
-                        <a href="/client/article/show" class="btn btn-primary" >Continuer ma commande</a>
+                        <a href="/client/parfum/show" class="btn btn-primary" >Continuer ma commande</a>
                     {% else %}
                     <form action="/client/panier/vider"  style="display: inline-block;"  method="post" >
                         <button class="btn btn-primary"  > Éffacer tout </button>
