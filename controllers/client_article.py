@@ -61,7 +61,6 @@ def client_parfum_show():
 
     else:
         prix_total = None
-        #jo
 
     return render_template('client/boutique/panier_article.html',
                            parfums=parfums,
