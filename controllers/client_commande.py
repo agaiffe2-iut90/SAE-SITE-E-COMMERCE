@@ -111,7 +111,6 @@ def client_commande_show():
     articles_commande = None
     commande_adresses = None
     id_commande = request.args.get('id_commande')
-    print(id_commande, 2222222 ,"id commande lol")
     if id_commande != None:
 
         sql = '''SELECT nom_genre as nom, quantite, parfum.prix_parfum AS prix, sum(parfum.prix_parfum * ligne_commande.quantite) as prix_ligne
