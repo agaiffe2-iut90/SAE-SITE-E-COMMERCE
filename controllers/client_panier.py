@@ -14,7 +14,7 @@ def client_panier_add():
     mycursor = get_db().cursor()
     id_client = session['id_user']
     id_parfum = request.form.get('id_parfum')
-    print(id_parfum, "artocle od ,flez")
+    print(id_parfum, "")
     quantite = request.form.get('quantite')
 
     sql = '''SELECT * FROM ligne_panier WHERE parfum_id=%s AND utilisateur_id=%s'''
@@ -85,7 +85,6 @@ def client_panier_vider():
     sql = '''SELECT * FROM ligne_panier WHERE utilisateur_id = %s'''
     mycursor.execute(sql, (client_id))
     items_panier = mycursor.fetchall()
-    print(items_panier, 51411165461616)
     for item in items_panier:
         sql = '''UPDATE parfum SET stock = stock + %s WHERE id_parfum = %s'''
         mycursor.execute(sql, (item['quantite'], item['parfum_id']))
