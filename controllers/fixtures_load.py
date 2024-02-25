@@ -11,7 +11,7 @@ fixtures_load = Blueprint('fixtures_load', __name__,
 @fixtures_load.route('/base/init')
 def fct_fixtures_load():
     mycursor = get_db().cursor()
-    sql='''DROP TABLE IF EXISTS liste_envie, historique, commentaire, note, ligne_panier,ligne_commande, declinaison_parfum, _date_update_, _date_commentaire_, _date_consultation_, adresse,  parfum, commande, etat, volume, genre, utilisateur, Taille, couleur;
+    sql='''DROP TABLE IF EXISTS ligne_panier,ligne_commande, parfum, commande, etat, volume, genre, utilisateur;
 '''
 
     mycursor.execute(sql)
