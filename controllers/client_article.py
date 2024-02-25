@@ -52,13 +52,18 @@ def client_parfum_show():
     # articles_panier = []
 
     if len(articles_panier) >= 1:
-        sql = ''' calcul du prix total du panier '''
-        prix_total = None
+        sql = ''' SELECT SUM(ligne_panier.quantite * parfum.prix_parfum) AS prix_total FROM ligne_panier 
+                            INNER JOIN parfum ON parfum.id_parfum = ligne_panier.parfum_id
+                            INNER JOIN genre ON parfum.type_parfum_id = genre.id_genre
+                            '''
+        mycursor.execute(sql)
+        prix_total = mycursor.fetchone()['prix_total']
+
     else:
         prix_total = None
 
     return render_template('client/boutique/panier_article.html',
                            parfums=parfums,
                            articles_panier=articles_panier,
-                           # prix_total=prix_total,
+                           prix_total=prix_total,
                            items_filtre=types_article)
