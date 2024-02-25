@@ -20,16 +20,36 @@
                     <input name="image" type="file" onchange="loadFile(event)"   class="form-control">
                 </label>
 
-                <label for="type_article_id">Type de l'article :
-                    <select name="type_article_id" required class="form-select">
-                        <option value="">Sélectionner un type d'article</option>
-                        {% for type in types_article %}
-                             <option value="{{ type.id_type_article }}"> {{ type.libelle }}</option>
+                <label for="type_parfum_id">Type du parfum :
+                    <select name="type_parfum_id" required class="form-select">
+                        <option value="">Sélectionner un type de parfum</option>
+                        {% for type in genres %}
+                             <option value="{{ type.id_genre }}"> {{ type.nom_genre }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label for="volume_id">Volume du parfum:
+                    <select name="volume_id" required class="form-select">
+                        <option value="">Sélectionner un volume</option>
+                        {% for type in volume %}
+                             <option value="{{ type.id_volume }}"> {{ type.nom_volume }}</option>
                         {% endfor %}
                     </select>
                 </label>
                 <label for="description">description :
                     <input name="description" type="text" class="form-control" >
+                </label>
+                <label for="conditionnement">Conditionnement :
+                    <input name="conditionnement" type="text" class="form-control" >
+                </label>
+                <label for="fournisseur">Fournisseur :
+                    <input name="fournisseur" type="text" class="form-control" >
+                </label>
+                <label for="marque">Marque :
+                    <input name="marque" type="text" class="form-control" >
+                </label>
+                <label for="stock">Stock :
+                    <input name="stock" type="number" min="0.0"  max="2147483647" value=""  class="form-control" required>
                 </label>
                 <label for="submit">
                     <input name="submit" type="submit" value="Ajouter" class="btn btn-primary mt-2">

@@ -13,38 +13,58 @@ types_article : tableau de dictionnaires
 
 {% extends 'admin/layout_admin.html' %}
 {% block title %}
-    <title>modifier un article</title>
+    <title>modifier un parfum</title>
 {% endblock %}
 
 {% block body %}
-    <h2>modifier un article</h2>
+    <h2>modifier un parfum</h2>
         <div class="row mt-5">
-        {%  if article.image is not none %}
-            <img class="card-img-top rounded mx-4 d-block"  style="width:200px; height:200px; border: 1px solid black; padding: 25px;"   id="img_output" src="{{ url_for('static', filename = 'images/') }}{{ article.image}}"  alt="image  de {{ article.nom }}" >
+        {%  if parfum.image is not none %}
+            <img class="card-img-top rounded mx-4 d-block"  style="width:200px; height:200px; border: 1px solid black; padding: 25px;"   id="img_output" src="{{ url_for('static', filename = 'images/') }}{{ parfum.image}}"  alt="image  de {{ parfum.nom }}" >
         {% endif %}
             <div class="w-25">
                 <form class="w-190" method="post" action="/admin/article/edit" enctype="multipart/form-data">
-                    <input type="hidden" value="{{ article.id_article }}" name="id_article">
+                    <input type="hidden" value="{{ parfum.id_article }}" name="id_article">
                     <label for="nom">Nom :
-                        <input name="nom" type="text" value="{{ article.nom }}" class="form-control">
+                        <input name="nom" type="text" value="{{ parfum.nom }}" class="form-control">
                     </label>
                     <label for="prix" > Prix (€) :
-                        <input name="prix" type="number" min="0.0" step="0.01" value="{{ article.prix }}" class="form-control" >
+                        <input name="prix" type="number" min="0.0" step="0.01" value="{{ parfum.prix }}" class="form-control" >
                     </label>
                     <label for="image">Image :                       {# à modifier #}
-                        <input name="image"  onchange="loadFile(event)" type="file" class="form-control" value="{{ article.image }}">             {# à modifier #}
+                        <input name="image"  onchange="loadFile(event)" type="file" class="form-control" value="{{ parfum.image }}">             {# à modifier #}
                     </label>                                         {# à modifier #}
 {#                https://blog.miguelgrinberg.com/post/handling-file-uploads-with-flask#}
 
-                <label for="type_article_id">Type de l'article :
-                    <select name="type_article_id" class="form-select">
+                    <label for="id_type_article">Type du parfum :
+                    <select name="id_type_article" class="form-select">
                             {% for type in types_article %}
-                                 <option value="{{ type.id_type_article }}" {% if type.id_type_article == article.type_article_id %} selected {% endif %}> {{ type.libelle }}</option>
+                                 <option value="{{ type.id_type_article }}" {% if type.id_type_article == parfum.id_type_article %} selected {% endif %}> {{ type.libelle }}</option>
                             {% endfor %}
                         </select>
                     </label>
+                    <label for="volume_id">Volume du parfum :
+                    <select name="volume_id" required class="form-select">
+                        <option value="">Sélectionner un volume</option>
+                        {% for type in volume %}
+                                 <option value="{{ type.id_volume }}" {% if type.id_volume == parfum.volume_id %} selected {% endif %}> {{ type.nom_volume }}</option>
+                        {% endfor %}
+                    </select>
+                    </label>
                     <label for="description">Description :
-                        <input name="description" type="text" value="{{ article.description }}" class="form-control">
+                        <input name="description" type="text" value="{{ parfum.description }}" class="form-control">
+                    </label>
+                    <label for="conditionnement">Conditionnement :
+                    <input name="conditionnement" type="text" value="{{ parfum.conditionnement }}" class="form-control" >
+                    </label>
+                    <label for="fournisseur">Fournisseur :
+                        <input name="fournisseur" type="text" value="{{ parfum.fournisseur }}" class="form-control" >
+                    </label>
+                    <label for="marque">Marque :
+                        <input name="marque" type="text" value="{{ parfum.marque }}" class="form-control" >
+                    </label>
+                    <label for="stock">Stock :
+                        <input name="stock" type="number" value="{{ parfum.stock }}" min="0.0"  max="2147483647" value=""  class="form-control" required>
                     </label>
                     <button class="btn btn-primary mt-2">
                                 Modifier
@@ -56,7 +76,7 @@ types_article : tableau de dictionnaires
 
                     <div style="display: flex; justify-content: space-between">
                         <h3>déclinaison en fonction de la taille/couleur (variante)</h3>
-                        <a class="img-fluid" href="/admin/declinaison_article/add?id_article={{ article.id_article }}">
+                        <a class="img-fluid" href="/admin/declinaison_article/add?id_article={{ parfum.id_article }}">
                             <button class="btn btn-primary">
                                 Ajouter une déclinaison (variante)
                             </button>

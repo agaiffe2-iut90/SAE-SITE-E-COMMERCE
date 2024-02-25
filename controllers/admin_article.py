@@ -26,11 +26,11 @@ def show_article():
                 FROM parfum
                 ORDER BY parfum.nom_parfum;'''
     mycursor.execute(sql)
-    articles = mycursor.fetchall()
+    parfums = mycursor.fetchall()
     sql = '''  SELECT * FROM genre;'''
     mycursor.execute(sql)
     type_parfum = mycursor.fetchall()
-    return render_template('admin/article/show_article.html', articles=articles, type_parfum=type_parfum)
+    return render_template('admin/article/show_article.html', parfums=parfums, type_parfum=type_parfum)
 
 
 @admin_article.route('/admin/article/add', methods=['GET'])
@@ -39,7 +39,10 @@ def add_article():
     sql = '''SELECT * FROM genre;'''
     mycursor.execute(sql)
     genre = mycursor.fetchall()
-    return render_template('admin/article/add_article.html', types_article=genre)
+    sql = '''SELECT * FROM volume;'''
+    mycursor.execute(sql)
+    volume= mycursor.fetchall()
+    return render_template('admin/article/add_article.html', genres=genre, volume=volume)
 
 
 @admin_article.route('/admin/article/add', methods=['POST'])
@@ -47,10 +50,16 @@ def valid_add_article():
     mycursor = get_db().cursor()
 
     nom = request.form.get('nom', '')
-    type_article_id = request.form.get('type_article_id', '')
+    type_parfum_id = request.form.get('type_parfum_id', '')
     prix = request.form.get('prix', '')
     description = request.form.get('description', '')
     image = request.files.get('image', '')
+    volume_id = request.form.get('volume_id', '')
+    conditionnement = request.form.get('conditionnement', '')
+    fournisseur = request.form.get('fournisseur', '')
+    marque = request.form.get('marque', '')
+    stock = request.form.get('stock', '')
+
 
     if image:
         filename = 'img_upload'+ str(int(2147483647 * random())) + '.png'
@@ -61,14 +70,14 @@ def valid_add_article():
 
     sql = '''INSERT INTO parfum(id_parfum, nom_parfum, prix_parfum, volume_id, type_parfum_id, conditionnement, description, fournisseur, marque, stock, image) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'''
 
-    tuple_add = (nom, filename, prix, type_article_id, description)
+    tuple_add = (nom, prix, volume_id, type_parfum_id, conditionnement, description, fournisseur, marque, stock, filename)
     print(tuple_add)
     mycursor.execute(sql, tuple_add)
     get_db().commit()
 
-    print(u'article ajouté , nom: ', nom, ' - type_article:', type_article_id, ' - prix:', prix,
+    print(u'article ajouté , nom: ', nom, ' - type_article:', type_parfum_id, ' - prix:', prix,
           ' - description:', description, ' - image:', image)
-    message = u'article ajouté , nom:' + nom + '- type_article:' + type_article_id + ' - prix:' + prix + ' - description:' + description + ' - image:' + str(
+    message = u'article ajouté , nom:' + nom + '- type_article:' + type_parfum_id + ' - prix:' + prix + ' - description:' + description + ' - image:' + str(
         image)
     flash(message, 'alert-success')
     return redirect('/admin/article/show')
@@ -107,29 +116,33 @@ def delete_article():
 @admin_article.route('/admin/article/edit', methods=['GET'])
 def edit_article():
     id_article=request.args.get('id_article')
+    print(id_article)
     mycursor = get_db().cursor()
     sql = '''
-    requête admin_article_6    
+    SELECT parfum.id_parfum AS id_article,
+        parfum.image AS image
+        , parfum.nom_parfum AS nom
+        , parfum.prix_parfum AS prix
+        , parfum.description AS description
+        , conditionnement, fournisseur, stock
+        , marque, volume_id, type_parfum_id AS id_type_article
+        FROM parfum
+        WHERE parfum.id_parfum = %s 
     '''
     mycursor.execute(sql, id_article)
-    article = mycursor.fetchone()
-    print(article)
+    parfum = mycursor.fetchone()
     sql = '''
-    requête admin_article_7
-    '''
+    SELECT id_genre as id_type_article , nom_genre AS libelle  FROM genre'''
     mycursor.execute(sql)
     types_article = mycursor.fetchall()
-
-    # sql = '''
-    # requête admin_article_6
-    # '''
-    # mycursor.execute(sql, id_article)
-    # declinaisons_article = mycursor.fetchall()
+    sql = '''SELECT * FROM volume;'''
+    mycursor.execute(sql)
+    volume = mycursor.fetchall()
 
     return render_template('admin/article/edit_article.html'
-                           ,article=article
-                           ,types_article=types_article
-                         #  ,declinaisons_article=declinaisons_article
+                            ,parfum=parfum
+                            ,types_article=types_article
+                           , volume=volume
                            )
 
 
@@ -139,12 +152,15 @@ def valid_edit_article():
     nom = request.form.get('nom')
     id_article = request.form.get('id_article')
     image = request.files.get('image', '')
-    type_article_id = request.form.get('type_article_id', '')
+    id_type_article = request.form.get('id_type_article', '')
     prix = request.form.get('prix', '')
     description = request.form.get('description')
-    sql = '''
-       requête admin_article_8
-       '''
+    volume_id = request.form.get('volume_id', '')
+    conditionnement = request.form.get('conditionnement', '')
+    fournisseur = request.form.get('fournisseur', '')
+    marque = request.form.get('marque', '')
+    stock = request.form.get('stock', '')
+    sql = ''' SELECT image from parfum WHERE id_parfum=%s '''
     mycursor.execute(sql, id_article)
     image_nom = mycursor.fetchone()
     image_nom = image_nom['image']
@@ -158,13 +174,17 @@ def valid_edit_article():
             image.save(os.path.join('static/images/', filename))
             image_nom = filename
 
-    sql = '''  requête admin_article_9 '''
-    mycursor.execute(sql, (nom, image_nom, prix, type_article_id, description, id_article))
+    print(nom, prix, volume_id, id_type_article, conditionnement, description, fournisseur, marque, stock,image_nom, id_article)
+    sql = '''UPDATE parfum SET nom_parfum = %s , prix_parfum = %s ,
+            volume_id=%s, type_parfum_id=%s, conditionnement=%s,
+            description =%s, fournisseur=%s, marque=%s, stock=%s, image=%s WHERE id_parfum=%s; '''
+    mycursor.execute(sql, (nom, prix, volume_id, id_type_article, conditionnement, description, fournisseur, marque, stock,image_nom, id_article))
 
     get_db().commit()
     if image_nom is None:
         image_nom = ''
-    message = u'article modifié , nom:' + nom + '- type_article :' + type_article_id + ' - prix:' + prix  + ' - image:' + image_nom + ' - description: ' + description
+
+    message = u'parfum modifié , nom:' + nom + '- type_article :' + id_type_article + '- volume -' + volume_id +' - prix:' + prix  + ' - image:' + image_nom + ' - description: ' + description +'- conditionnement -' + conditionnement + '- fournisseur -' + fournisseur + 'marque' + marque + 'stock' + stock
     flash(message, 'alert-success')
     return redirect('/admin/article/show')
 
