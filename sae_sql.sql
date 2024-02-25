@@ -1,12 +1,40 @@
 -- Suppression des tables si elles existent
+
+DROP TABLE IF EXISTS liste_envie;
+DROP TABLE IF EXISTS historique;
+DROP TABLE IF EXISTS commentaire;
+DROP TABLE IF EXISTS note;
 DROP TABLE IF EXISTS ligne_panier;
 DROP TABLE IF EXISTS ligne_commande;
+DROP TABLE IF EXISTS declinaison_parfum;
+DROP TABLE IF EXISTS _date_update_;
+DROP TABLE IF EXISTS _date_commentaire_;
+DROP TABLE IF EXISTS _date_consultation_;
+DROP TABLE IF EXISTS adresse;
 DROP TABLE IF EXISTS parfum;
 DROP TABLE IF EXISTS commande;
 DROP TABLE IF EXISTS etat;
 DROP TABLE IF EXISTS volume;
 DROP TABLE IF EXISTS genre;
 DROP TABLE IF EXISTS utilisateur;
+DROP TABLE IF EXISTS Taille;
+DROP TABLE IF EXISTS couleur;
+
+-- Création de la table couleur
+CREATE TABLE couleur(
+    id_couleur INT,
+    libelle VARCHAR(50) NOT NULL,
+    code_couleur INT NOT NULL,
+    PRIMARY KEY(id_couleur)
+);
+
+-- Création de la table Taille
+CREATE TABLE Taille(
+    id_taille INT,
+    libelle VARCHAR(50) NOT NULL,
+    code_taille INT NOT NULL,
+    PRIMARY KEY(id_taille)
+ );
 
 -- Création de la table utilisateur
 CREATE TABLE utilisateur(
@@ -71,27 +99,119 @@ CREATE TABLE parfum(
     FOREIGN KEY(type_parfum_id) REFERENCES genre(id_genre)
 )DEFAULT CHARSET utf8mb4;
 
+-- Création de la table adresse
+CREATE TABLE adresse(
+    id_adresse INT,
+    nom VARCHAR(100) NOT NULL,
+    rue VARCHAR(50) NOT NULL,
+    code_postal INT NOT NULL,
+    ville VARCHAR(50) NOT NULL,
+    date_utilisation DATE NOT NULL,
+    id_utilisateur INT NOT NULL,
+    PRIMARY KEY(id_adresse),
+    FOREIGN KEY(id_utilisateur) REFERENCES utilisateur(id_utilisateur)
+);
+
+-- Création de la table date consultation
+CREATE TABLE _date_consultation_(
+    date_consultation DATE,
+    PRIMARY KEY(date_consultation)
+);
+
+-- Création de la table date commentaire
+CREATE TABLE _date_commentaire_(
+    date_publication DATE,
+    PRIMARY KEY(date_publication)
+);
+
+-- Création de la table date update
+CREATE TABLE _date_update_(
+    date_update DATE,
+    PRIMARY KEY(date_update)
+);
+
+-- Création de la table declinaison parfum
+CREATE TABLE declinaison_parfum(
+    id_declinaison INT,
+    stock VARCHAR(50) NOT NULL,
+    prix_declinaison DECIMAL(15,2) NOT NULL,
+    image VARCHAR(50) NOT NULL,
+    id_parfum INT NOT NULL,
+    id_taille INT NOT NULL,
+    id_couleur INT NOT NULL,
+    PRIMARY KEY(id_declinaison),
+    FOREIGN KEY(id_parfum) REFERENCES parfum(id_parfum),
+    FOREIGN KEY(id_taille) REFERENCES Taille(id_taille),
+    FOREIGN KEY(id_couleur) REFERENCES couleur(id_couleur)
+);
+
 -- Création de la table ligne_commande
 CREATE TABLE ligne_commande(
-                               commande_id INT ,
-                               parfum_id INT ,
-                               prix DOUBLE,
-                               quantite INT,
-                                   PRIMARY KEY(commande_id,parfum_id),
-                               FOREIGN KEY(commande_id) REFERENCES commande(id_commande),
-                               FOREIGN KEY(parfum_id) REFERENCES parfum(id_parfum)
+    commande_id INT ,
+    parfum_id INT ,
+    prix DOUBLE,
+    quantite INT,
+        PRIMARY KEY(commande_id,parfum_id),
+    FOREIGN KEY(commande_id) REFERENCES commande(id_commande),
+    FOREIGN KEY(parfum_id) REFERENCES parfum(id_parfum)
 )DEFAULT CHARSET utf8mb4;
 
 -- Création de la table ligne_panier
 CREATE TABLE ligne_panier(
-                             utilisateur_id INT ,
-                             parfum_id INT ,
-                             quantite INT,
-                             date_ajout DATE,
-                             PRIMARY KEY(utilisateur_id,parfum_id),
-                             FOREIGN KEY(utilisateur_id) REFERENCES utilisateur(id_utilisateur),
-                             FOREIGN KEY(parfum_id) REFERENCES parfum(id_parfum)
+    utilisateur_id INT ,
+    parfum_id INT ,
+    quantite INT,
+    date_ajout DATE,
+    PRIMARY KEY(utilisateur_id,parfum_id),
+    FOREIGN KEY(utilisateur_id) REFERENCES utilisateur(id_utilisateur),
+    FOREIGN KEY(parfum_id) REFERENCES parfum(id_parfum)
 )DEFAULT CHARSET utf8mb4;
+
+-- Création de la table note
+CREATE TABLE note(
+    id_utilisateur INT,
+    id_parfum INT,
+    note VARCHAR(150) NOT NULL,
+    PRIMARY KEY(id_utilisateur, id_parfum),
+    FOREIGN KEY(id_utilisateur) REFERENCES utilisateur(id_utilisateur),
+    FOREIGN KEY(id_parfum) REFERENCES parfum(id_parfum)
+);
+
+-- Création de la table commenraire
+CREATE TABLE commentaire(
+    id_utilisateur INT,
+    id_parfum INT,
+    date_publication DATE,
+    commentaire VARCHAR(200) NOT NULL,
+    valider VARCHAR(50) NOT NULL,
+    PRIMARY KEY(id_utilisateur, id_parfum, date_publication),
+    FOREIGN KEY(id_utilisateur) REFERENCES utilisateur(id_utilisateur),
+    FOREIGN KEY(id_parfum) REFERENCES parfum(id_parfum),
+    FOREIGN KEY(date_publication) REFERENCES _date_commentaire_(date_publication)
+);
+
+-- Création de la table historique
+CREATE TABLE historique(
+    id_utilisateur INT,
+    id_parfum INT,
+    date_consultation DATE,
+    PRIMARY KEY(id_utilisateur, id_parfum, date_consultation),
+    FOREIGN KEY(id_utilisateur) REFERENCES utilisateur(id_utilisateur),
+    FOREIGN KEY(id_parfum) REFERENCES parfum(id_parfum),
+    FOREIGN KEY(date_consultation) REFERENCES _date_consultation_(date_consultation)
+);
+
+-- Création de la table liste_envie
+CREATE TABLE liste_envie(
+    id_utilisateur INT,
+    id_parfum INT,
+    date_update DATE,
+    PRIMARY KEY(id_utilisateur, id_parfum, date_update),
+    FOREIGN KEY(id_utilisateur) REFERENCES utilisateur(id_utilisateur),
+    FOREIGN KEY(id_parfum) REFERENCES parfum(id_parfum),
+    FOREIGN KEY(date_update) REFERENCES _date_update_(date_update)
+);
+
 
 -- Insertion de données dans la table utilisateur
 INSERT INTO utilisateur(id_utilisateur,login,email,password,role,nom,est_actif) VALUES
