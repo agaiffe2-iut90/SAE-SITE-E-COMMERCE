@@ -39,7 +39,7 @@ def client_commande_valide():
     return render_template('client/boutique/panier_validation_adresses.html'
                            #, adresses=adresses
                            , articles_panier=parfums_panier
-                           , prix_total= prix_total
+                           #prix_total= prix_total
                            , validation=1
                            #, id_adresse_fav=id_adresse_fav
                            )
