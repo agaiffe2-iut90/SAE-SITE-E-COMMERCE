@@ -13,22 +13,64 @@ client_coordonnee = Blueprint('client_coordonnee', __name__,
 def client_coordonnee_show():
     mycursor = get_db().cursor()
     id_client = session['id_user']
-    utilisateur=[]
+    id_adresse_fav = 0
 
+    # Récupération des informations de l'utilisateur
+    sql = "SELECT * FROM utilisateur WHERE id_utilisateur = %s;"
+    mycursor.execute(sql, (id_client,))
+    utilisateur = mycursor.fetchone()
+
+    sql = '''
+        SELECT 
+            adresse.id_adresse, nom, rue, code_postal, ville, 
+            COUNT(commande.id_commande) as nb_utilisation, adresse.valide
+        FROM adresse
+        LEFT JOIN commande ON commande.id_adresse = adresse.id_adresse
+        WHERE adresse.utilisateur_id  = %s
+        GROUP BY nom, rue, code_postal, ville, adresse.id_adresse, adresse.valide
+        ORDER BY date_utilisation DESC; '''
+    
+    mycursor.execute(sql, (id_client,))
+    adresses = mycursor.fetchall()
+    nb_adresses = 0
+    for ligne in adresses:
+        if ligne['valide'] == 0:
+            continue
+        else:
+            nb_adresses += 1
+
+    if nb_adresses > 1:
+        
+        sql = '''
+            SELECT id_adresse
+            FROM adresse
+            ORDER BY date_utilisation DESC
+            LIMIT 1; '''
+
+        mycursor.execute(sql)
+        address_fav = mycursor.fetchone()
+        
+        if address_fav != None:
+            id_adresse_fav = mycursor.fetchone()['id_adresse']
 
     return render_template('client/coordonnee/show_coordonnee.html'
                            , utilisateur=utilisateur
-                         #  , adresses=adresses
-                         #  , nb_adresses=nb_adresses
+                          , adresses=adresses
+                         ,nb_adresses=nb_adresses, id_adresse_fav = id_adresse_fav
                            )
+
 
 @client_coordonnee.route('/client/coordonnee/edit', methods=['GET'])
 def client_coordonnee_edit():
     mycursor = get_db().cursor()
     id_client = session['id_user']
 
+    sql = "SELECT * FROM utilisateur WHERE id_utilisateur = %s;"
+    mycursor.execute(sql, (id_client,))
+    utilisateur = mycursor.fetchone()
+
     return render_template('client/coordonnee/edit_coordonnee.html'
-                           #,utilisateur=utilisateur
+                           ,utilisateur=utilisateur
                            )
 
 @client_coordonnee.route('/client/coordonnee/edit', methods=['POST'])
