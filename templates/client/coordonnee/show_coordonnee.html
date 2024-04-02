@@ -32,17 +32,32 @@
                     <th>Rue</th>
                      <th>Code Postal</th>
                      <th>Ville</th>
+                    <th>nbr. utilisation commande</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 {% for adresse in adresses %}
-                    <tr {% if adresse.valide is defined and adresse.valide==0 %} style="color: darkorange"{% endif %}>
-
-                        <td>{{ adresse.nom }}-{{ adresse.valide}}</td>
-                        <td>{{ adresse.rue }}</td>
-                        <td>{{ adresse.code_postal }}</td>
-                        <td>{{ adresse.ville }}</td>
+                    <tr >
+                        {% if adresse.valide is defined and adresse.valide == 0 %}
+                            <td style="color: darkorange">{{ adresse.nom }}</td>
+                            <td style="color: darkorange">{{ adresse.rue }}</td>
+                            <td style="color: darkorange">{{ adresse.code_postal }}</td>
+                            <td style="color: darkorange">{{ adresse.ville }}</td>
+                            <td style="color: darkorange">{{ adresse.nb_utilisation }}</td>
+                        {% elif id_adresse_fav != 0 and id_adresse_fav == adresse.id_adresse %}
+                            <td style="color: blue; font-weight: bolder;">{{ adresse.nom }}</td>
+                            <td style="color: blue; font-weight: bolder;">{{ adresse.rue }}</td>
+                            <td style="color: blue; font-weight: bolder;">{{ adresse.code_postal }}</td>
+                            <td style="color: blue; font-weight: bolder;">{{ adresse.ville }}</td>
+                            <td style="color: blue; font-weight: bolder;">{{ adresse.nb_utilisation }}</td>
+                        {% else %}
+                            <td>{{ adresse.nom }}</td>
+                            <td>{{ adresse.rue }}</td>
+                            <td>{{ adresse.code_postal }}</td>
+                            <td>{{ adresse.ville }}</td>
+                            <td>{{ adresse.nb_utilisation }}</td>
+                        {% endif %}
                         <td>
                             {% if adresse.valide is defined and adresse.valide==0 %}
                                 <span style="color: darkorange">*</span>
@@ -61,7 +76,8 @@
         <div>
             {% if nb_adresses is defined %}
                 {% if nb_adresses <4 %}
-                        <span style="color: darkorange">* adresse non valide</span>
+                        <span style="color: darkorange">* Adresse non valide </span>
+                        <span style="color: blue; font-weight: bolder;"> * Favori</span>
                   <a href="/client/coordonnee/add_adresse" class="btn btn-primary m-2">Ajouter une adresse</a>
                 {% endif %}
                  <span style="color:green;">( {{ nb_adresses }} / 4 )</span>
