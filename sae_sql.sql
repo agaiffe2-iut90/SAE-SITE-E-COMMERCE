@@ -50,34 +50,38 @@ CREATE TABLE utilisateur(
 
 -- Création de la table genre
 CREATE TABLE genre(
-                      id_genre INT AUTO_INCREMENT,
-                      nom_genre VARCHAR(255),
-                      PRIMARY KEY(id_genre)
+    id_genre INT AUTO_INCREMENT,
+    nom_genre VARCHAR(255),
+    PRIMARY KEY(id_genre)
 )DEFAULT CHARSET utf8mb4;
 
 -- Création de la table volume
 CREATE TABLE volume(
-                       id_volume INT AUTO_INCREMENT,
-                       nom_volume VARCHAR(255),
-                       PRIMARY KEY(id_volume)
+    id_volume INT AUTO_INCREMENT,
+    nom_volume VARCHAR(255),
+    PRIMARY KEY(id_volume)
 )DEFAULT CHARSET utf8mb4;
 
 -- Création de la table etat
 CREATE TABLE etat(
-                     id_etat INT AUTO_INCREMENT,
-                     libelle VARCHAR(255),
-                     PRIMARY KEY(id_etat)
+    id_etat INT AUTO_INCREMENT,
+    libelle VARCHAR(255),
+    PRIMARY KEY(id_etat)
 )DEFAULT CHARSET utf8mb4;
 
 -- Création de la table commande
 CREATE TABLE commande(
-                         id_commande INT AUTO_INCREMENT,
-                         date_achat DATE,
-                         utilisateur_id INT,
-                         etat_id INT,
-                         PRIMARY KEY(id_commande),
-                         FOREIGN KEY(utilisateur_id) REFERENCES utilisateur(id_utilisateur),
-                         FOREIGN KEY(etat_id) REFERENCES etat(id_etat)
+    id_commande INT AUTO_INCREMENT,
+    date_achat DATE,
+    utilisateur_id INT,
+    etat_id INT,
+    id_adresse INT NOT NULL,
+    id_adresse_1 INT NOT NULL,
+    PRIMARY KEY(id_commande),
+    FOREIGN KEY (id_adresse) REFERENCES adresse(id_adresse),
+    FOREIGN KEY (id_adresse_1) REFERENCES adresse(id_adresse),
+    FOREIGN KEY(utilisateur_id) REFERENCES utilisateur(id_utilisateur),
+    FOREIGN KEY(etat_id) REFERENCES etat(id_etat)
 )DEFAULT CHARSET utf8mb4;
 
 
@@ -101,13 +105,14 @@ CREATE TABLE parfum(
 
 -- Création de la table adresse
 CREATE TABLE adresse(
-    id_adresse INT,
+    id_adresse INT AUTO_INCREMENT,
     nom VARCHAR(100) NOT NULL,
     rue VARCHAR(50) NOT NULL,
     code_postal INT NOT NULL,
     ville VARCHAR(50) NOT NULL,
-    date_utilisation DATE NOT NULL,
+    date_utilisation DATE ,
     id_utilisateur INT NOT NULL,
+    valide BOOLEAN DEFAULT TRUE,
     PRIMARY KEY(id_adresse),
     FOREIGN KEY(id_utilisateur) REFERENCES utilisateur(id_utilisateur)
 );
