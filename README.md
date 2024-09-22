@@ -8,6 +8,7 @@ https://pirannah.pythonanywhere.com/
 
 
 ## Livrable 3 : ##
+(non mis sur github et sur le site)
 
 Étudiant 1 : gestion du stock pour des articles ou services de catégories différentes (déclinaisons)
 
