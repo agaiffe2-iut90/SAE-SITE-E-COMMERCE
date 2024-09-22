@@ -6,6 +6,35 @@ https://pirannah.pythonanywhere.com/
 
 ## Livrable 2 : ##
 
+L'administrateur peut :
+
+-Afficher toutes les commandes et les valider (le client peut visualiser que la commande a été traitée )
+
+-Afficher le détail d’une commande (articles, prix, quantité + nom du client et informations sur le client)
+
+-Modifier le stock d'un article
+
+Côté client :
+
+-affichage du panier et des articles (sur la même vue)
+
+-ajout dans un panier des articles (lien) : formulaire (vérifier que le panier est différent pour 2 clients)
+
+-supprimer des articles du panier : formulaire
+
+-l’ajout dans le panier d’un article qui est déjà dans le panier modifie la quantité de articles
+
+-la validation du panier génère une commande (interface pour confirmer/vider le panier/continuer les achats)
+
+-affichage des commandes et du prix total de chaque commande
+
+-filtrer les articles par type du coté client (catégorie à l’aide de liens , ou d’une liste déroulante, de case à cocher …), utiliser une session pour stocker ce filtre coté serveur
+
+-le client peut voir dans son espace que la commande est prise en compte (réalisée) et le client peut afficher le détail de ses commandes
+
+-Affichage du stock d’un article (ajouter l’attribut “stock” dans votre table équivalente à “article”)
+
+-Gestion du stock, il n’est pas possible de commander un article qui n’est pas en stock
 
 ## Livrable 3 : ##
 (non mis sur github et sur le site)
