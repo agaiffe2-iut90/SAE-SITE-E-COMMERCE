@@ -13,8 +13,11 @@ https://pirannah.pythonanywhere.com/
 Pour l'administrateur du site, le système permet de :
 
 -Suivre le stock de chaque déclinaison et savoir quand il faut en commander plus.
+
 -Mettre en valeur les produits populaires pour les clients.
+
 -Gérer les tailles uniques ou les couleurs uniques.
+
 -Analyser les ventes pour mieux comprendre les préférences des clients.
 
 Étudiant 2 : gestion des commentaires et des notes
