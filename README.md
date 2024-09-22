@@ -4,7 +4,10 @@
 https://pirannah.pythonanywhere.com/
 
 
-## Objectifs : ##
+## Livrable 2 : ##
+
+
+## Livrable 3 : ##
 
 Étudiant 1 : gestion du stock pour des articles ou services de catégories différentes (déclinaisons)
 
