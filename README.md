@@ -3,6 +3,17 @@
 
 https://pirannah.pythonanywhere.com/
 
+## Connexion : ##
+
+Pseudo : admin 
+Mot de passe : admin
+
+Pseudo : client
+Mot de passe : client
+
+Pseudo : client2
+Mot de passe : client2
+
 
 ## Livrable 2 : ##
 
