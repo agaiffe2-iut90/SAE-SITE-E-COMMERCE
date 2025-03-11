@@ -81,13 +81,8 @@ Pour l'administrateur du site, le système permet de :
 
 -Leslie MERAT
 
-Étudiant 4 : gestion d’une liste d’envies(wishlist) et historique des articles consultés
-
--Cosme GUILLAUME
-
 # Collaborateurs #
 
 - Sugdenaz EKICI
 - Anna GAIFFE
 - Leslie MERAT
-- Cosme GUILLAUME
